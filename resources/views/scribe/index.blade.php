@@ -26,7 +26,7 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "http://localhost:8000";
+        var tryItOutBaseUrl = "http://localhost";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
@@ -103,7 +103,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: May 19, 2025</li>
+        <li>Last updated: March 25, 2026</li>
     </ul>
 </div>
 
@@ -112,7 +112,7 @@
     <div class="content">
         <h1 id="introduction">Introduction</h1>
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost:8000</code>
+    <strong>Base URL</strong>: <code>http://localhost</code>
 </aside>
 <pre><code>This documentation aims to provide all the information you need to work with our API.
 
@@ -141,19 +141,19 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/login" \
+    "http://localhost/api/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"qkunze@example.com\",
-    \"password\": \"O[2UZ5ij-e\\/dl4m{o,\"
+    \"email\": \"gbailey@example.net\",
+    \"password\": \"|]|{+-\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/login"
+    "http://localhost/api/login"
 );
 
 const headers = {
@@ -162,8 +162,8 @@ const headers = {
 };
 
 let body = {
-    "email": "qkunze@example.com",
-    "password": "O[2UZ5ij-e\/dl4m{o,"
+    "email": "gbailey@example.net",
+    "password": "|]|{+-"
 };
 
 fetch(url, {
@@ -261,10 +261,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-login"
-               value="qkunze@example.com"
+               value="gbailey@example.net"
                data-component="body">
     <br>
-<p>Email pengguna. Contoh: test@example.com Example: <code>qkunze@example.com</code></p>
+<p>Email pengguna. Contoh: test@example.com Example: <code>gbailey@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -272,10 +272,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-login"
-               value="O[2UZ5ij-e/dl4m{o,"
+               value="|]|{+-"
                data-component="body">
     <br>
-<p>Password pengguna. Contoh: password Example: <code>O[2UZ5ij-e/dl4m{o,</code></p>
+<p>Password pengguna. Contoh: password Example: <code>|]|{+-</code></p>
         </div>
         </form>
 
@@ -292,21 +292,21 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/register" \
+    "http://localhost/api/register" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"consequatur\",
-    \"email\": \"qkunze@example.com\",
-    \"password\": \"O[2UZ5ij-e\\/dl4m{o,\",
-    \"password_confirmation\": \"consequatur\"
+    \"name\": \"architecto\",
+    \"email\": \"gbailey@example.net\",
+    \"password\": \"|]|{+-\",
+    \"password_confirmation\": \"architecto\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/register"
+    "http://localhost/api/register"
 );
 
 const headers = {
@@ -315,10 +315,10 @@ const headers = {
 };
 
 let body = {
-    "name": "consequatur",
-    "email": "qkunze@example.com",
-    "password": "O[2UZ5ij-e\/dl4m{o,",
-    "password_confirmation": "consequatur"
+    "name": "architecto",
+    "email": "gbailey@example.net",
+    "password": "|]|{+-",
+    "password_confirmation": "architecto"
 };
 
 fetch(url, {
@@ -423,10 +423,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-register"
-               value="consequatur"
+               value="architecto"
                data-component="body">
     <br>
-<p>Nama pengguna. Contoh: test Example: <code>consequatur</code></p>
+<p>Nama pengguna. Contoh: test Example: <code>architecto</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -434,10 +434,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-register"
-               value="qkunze@example.com"
+               value="gbailey@example.net"
                data-component="body">
     <br>
-<p>Email pengguna. Contoh: test@example.com Example: <code>qkunze@example.com</code></p>
+<p>Email pengguna. Contoh: test@example.com Example: <code>gbailey@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -445,10 +445,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-register"
-               value="O[2UZ5ij-e/dl4m{o,"
+               value="|]|{+-"
                data-component="body">
     <br>
-<p>Password. Contoh: password Example: <code>O[2UZ5ij-e/dl4m{o,</code></p>
+<p>Password. Contoh: password Example: <code>|]|{+-</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
@@ -456,10 +456,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password_confirmation"                data-endpoint="POSTapi-register"
-               value="consequatur"
+               value="architecto"
                data-component="body">
     <br>
-<p>password_confirmation. Contoh: password Example: <code>consequatur</code></p>
+<p>password_confirmation. Contoh: password Example: <code>architecto</code></p>
         </div>
         </form>
 
@@ -477,7 +477,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/users" \
+    --get "http://localhost/api/users" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -485,7 +485,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users"
+    "http://localhost/api/users"
 );
 
 const headers = {
@@ -627,22 +627,22 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/users" \
+    "http://localhost/api/users" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"consequatur\",
-    \"email\": \"qkunze@example.com\",
-    \"password\": \"O[2UZ5ij-e\\/dl4m{o,\",
-    \"hobbies\": \"consequatur\"
+    \"name\": \"architecto\",
+    \"email\": \"gbailey@example.net\",
+    \"password\": \"|]|{+-\",
+    \"hobbies\": \"architecto\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users"
+    "http://localhost/api/users"
 );
 
 const headers = {
@@ -652,10 +652,10 @@ const headers = {
 };
 
 let body = {
-    "name": "consequatur",
-    "email": "qkunze@example.com",
-    "password": "O[2UZ5ij-e\/dl4m{o,",
-    "hobbies": "consequatur"
+    "name": "architecto",
+    "email": "gbailey@example.net",
+    "password": "|]|{+-",
+    "hobbies": "architecto"
 };
 
 fetch(url, {
@@ -780,10 +780,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-users"
-               value="consequatur"
+               value="architecto"
                data-component="body">
     <br>
-<p>Nama user. Contoh: test Example: <code>consequatur</code></p>
+<p>Nama user. Contoh: test Example: <code>architecto</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -791,10 +791,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-users"
-               value="qkunze@example.com"
+               value="gbailey@example.net"
                data-component="body">
     <br>
-<p>Email user. Contoh: test@example.com Example: <code>qkunze@example.com</code></p>
+<p>Email user. Contoh: test@example.com Example: <code>gbailey@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -802,10 +802,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-users"
-               value="O[2UZ5ij-e/dl4m{o,"
+               value="|]|{+-"
                data-component="body">
     <br>
-<p>Password user. Contoh: password Example: <code>O[2UZ5ij-e/dl4m{o,</code></p>
+<p>Password user. Contoh: password Example: <code>|]|{+-</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>hobbies</code></b>&nbsp;&nbsp;
@@ -813,10 +813,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="hobbies"                data-endpoint="POSTapi-users"
-               value="consequatur"
+               value="architecto"
                data-component="body">
     <br>
-<p>Opsional, pisahkan dengan koma. Contoh: membaca Example: <code>consequatur</code></p>
+<p>Opsional, pisahkan dengan koma. Contoh: membaca Example: <code>architecto</code></p>
         </div>
         </form>
 
@@ -834,7 +834,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/users/17" \
+    --get "http://localhost/api/users/16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -842,7 +842,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/17"
+    "http://localhost/api/users/16"
 );
 
 const headers = {
@@ -980,10 +980,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-users--id-"
-               value="17"
+               value="16"
                data-component="url">
     <br>
-<p>ID user. Contoh: 1 Example: <code>17</code></p>
+<p>ID user. Contoh: 1 Example: <code>16</code></p>
             </div>
                     </form>
 
@@ -1001,22 +1001,22 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/users/17" \
+    "http://localhost/api/users/16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"consequatur\",
-    \"email\": \"qkunze@example.com\",
-    \"hobbies\": \"consequatur\",
-    \"password\": \"O[2UZ5ij-e\\/dl4m{o,\"
+    \"name\": \"architecto\",
+    \"email\": \"gbailey@example.net\",
+    \"hobbies\": \"architecto\",
+    \"password\": \"|]|{+-\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/17"
+    "http://localhost/api/users/16"
 );
 
 const headers = {
@@ -1026,10 +1026,10 @@ const headers = {
 };
 
 let body = {
-    "name": "consequatur",
-    "email": "qkunze@example.com",
-    "hobbies": "consequatur",
-    "password": "O[2UZ5ij-e\/dl4m{o,"
+    "name": "architecto",
+    "email": "gbailey@example.net",
+    "hobbies": "architecto",
+    "password": "|]|{+-"
 };
 
 fetch(url, {
@@ -1151,10 +1151,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-users--id-"
-               value="17"
+               value="16"
                data-component="url">
     <br>
-<p>ID user. Contoh: 1 Example: <code>17</code></p>
+<p>ID user. Contoh: 1 Example: <code>16</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1163,10 +1163,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="PUTapi-users--id-"
-               value="consequatur"
+               value="architecto"
                data-component="body">
     <br>
-<p>Nama user. Contoh: test Example: <code>consequatur</code></p>
+<p>Nama user. Contoh: test Example: <code>architecto</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -1174,10 +1174,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="PUTapi-users--id-"
-               value="qkunze@example.com"
+               value="gbailey@example.net"
                data-component="body">
     <br>
-<p>Email user. Contoh: test@example.com Example: <code>qkunze@example.com</code></p>
+<p>Email user. Contoh: test@example.com Example: <code>gbailey@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>hobbies</code></b>&nbsp;&nbsp;
@@ -1185,10 +1185,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="hobbies"                data-endpoint="PUTapi-users--id-"
-               value="consequatur"
+               value="architecto"
                data-component="body">
     <br>
-<p>Opsional. Contoh: membaca Example: <code>consequatur</code></p>
+<p>Opsional. Contoh: membaca Example: <code>architecto</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -1196,10 +1196,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="PUTapi-users--id-"
-               value="O[2UZ5ij-e/dl4m{o,"
+               value="|]|{+-"
                data-component="body">
     <br>
-<p>optional Biarkan kosong jika tidak ingin diubah. Example: <code>O[2UZ5ij-e/dl4m{o,</code></p>
+<p>optional Biarkan kosong jika tidak ingin diubah. Example: <code>|]|{+-</code></p>
         </div>
         </form>
 
@@ -1217,7 +1217,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/users/17" \
+    "http://localhost/api/users/16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1225,7 +1225,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/17"
+    "http://localhost/api/users/16"
 );
 
 const headers = {
@@ -1336,10 +1336,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-users--id-"
-               value="17"
+               value="16"
                data-component="url">
     <br>
-<p>ID user. Contoh: 1 Example: <code>17</code></p>
+<p>ID user. Contoh: 1 Example: <code>16</code></p>
             </div>
                     </form>
 

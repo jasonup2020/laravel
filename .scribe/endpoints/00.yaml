@@ -26,7 +26,7 @@ endpoints:
         name: email
         description: 'Email pengguna. Contoh: test@example.com'
         required: true
-        example: qkunze@example.com
+        example: gbailey@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -36,15 +36,15 @@ endpoints:
         name: password
         description: 'Password pengguna. Contoh: password'
         required: true
-        example: 'O[2UZ5ij-e/dl4m{o,'
+        example: '|]|{+-'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      email: qkunze@example.com
-      password: 'O[2UZ5ij-e/dl4m{o,'
+      email: gbailey@example.net
+      password: '|]|{+-'
     fileParameters: []
     responses:
       -
@@ -87,7 +87,7 @@ endpoints:
         name: name
         description: 'Nama pengguna. Contoh: test'
         required: true
-        example: consequatur
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -97,7 +97,7 @@ endpoints:
         name: email
         description: 'Email pengguna. Contoh: test@example.com'
         required: true
-        example: qkunze@example.com
+        example: gbailey@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -107,7 +107,7 @@ endpoints:
         name: password
         description: 'Password. Contoh: password'
         required: true
-        example: 'O[2UZ5ij-e/dl4m{o,'
+        example: '|]|{+-'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -117,17 +117,17 @@ endpoints:
         name: password_confirmation
         description: 'password_confirmation. Contoh: password'
         required: true
-        example: consequatur
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      name: consequatur
-      email: qkunze@example.com
-      password: 'O[2UZ5ij-e/dl4m{o,'
-      password_confirmation: consequatur
+      name: architecto
+      email: gbailey@example.net
+      password: '|]|{+-'
+      password_confirmation: architecto
     fileParameters: []
     responses:
       -
@@ -209,7 +209,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
@@ -240,7 +240,7 @@ endpoints:
         name: name
         description: 'Nama user. Contoh: test'
         required: true
-        example: consequatur
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -250,7 +250,7 @@ endpoints:
         name: email
         description: 'Email user. Contoh: test@example.com'
         required: true
-        example: qkunze@example.com
+        example: gbailey@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -260,7 +260,7 @@ endpoints:
         name: password
         description: 'Password user. Contoh: password'
         required: true
-        example: 'O[2UZ5ij-e/dl4m{o,'
+        example: '|]|{+-'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -270,17 +270,17 @@ endpoints:
         name: hobbies
         description: 'Opsional, pisahkan dengan koma. Contoh: membaca'
         required: false
-        example: consequatur
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
-      name: consequatur
-      email: qkunze@example.com
-      password: 'O[2UZ5ij-e/dl4m{o,'
-      hobbies: consequatur
+      name: architecto
+      email: gbailey@example.net
+      password: '|]|{+-'
+      hobbies: architecto
     fileParameters: []
     responses:
       -
@@ -312,7 +312,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
@@ -339,14 +339,14 @@ endpoints:
         name: id
         description: 'ID user. Contoh: 1'
         required: true
-        example: 17
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: 17
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -390,7 +390,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
@@ -418,14 +418,14 @@ endpoints:
         name: id
         description: 'ID user. Contoh: 1'
         required: true
-        example: 17
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: 17
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -433,7 +433,7 @@ endpoints:
         name: name
         description: 'Nama user. Contoh: test'
         required: true
-        example: consequatur
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -443,7 +443,7 @@ endpoints:
         name: email
         description: 'Email user. Contoh: test@example.com'
         required: true
-        example: qkunze@example.com
+        example: gbailey@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -453,7 +453,7 @@ endpoints:
         name: hobbies
         description: 'Opsional. Contoh: membaca'
         required: false
-        example: consequatur
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -463,17 +463,17 @@ endpoints:
         name: password
         description: 'optional Biarkan kosong jika tidak ingin diubah.'
         required: false
-        example: 'O[2UZ5ij-e/dl4m{o,'
+        example: '|]|{+-'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      name: consequatur
-      email: qkunze@example.com
-      hobbies: consequatur
-      password: 'O[2UZ5ij-e/dl4m{o,'
+      name: architecto
+      email: gbailey@example.net
+      hobbies: architecto
+      password: '|]|{+-'
     fileParameters: []
     responses:
       -
@@ -498,7 +498,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
@@ -525,14 +525,14 @@ endpoints:
         name: id
         description: 'ID user. Contoh: 1'
         required: true
-        example: 17
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: 17
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -553,7 +553,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null

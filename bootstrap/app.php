@@ -11,9 +11,18 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware) {
-        //
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'jwt.auth' => \App\Http\Middleware\JwtMiddleware::class,
+            'tenant.identify' => \App\Http\Middleware\TenantMiddleware::class,
+            'permission' => \App\Http\Middleware\PermissionMiddleware::class,
+            'rate.limit' => \App\Http\Middleware\RateLimitMiddleware::class,
+        ]);
+        
+        $middleware->api(prepend: [
+            \App\Http\Middleware\SetLocale::class,
+        ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
+    ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

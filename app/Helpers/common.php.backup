@@ -1,0 +1,434 @@
+<?php
+
+/**
+ * 通用辅助函数文件
+ * 
+ * 提供API响应、业务逻辑相关的辅助函数
+ * 
+ * @package App\Helpers
+ * @author  SaaS Platform
+ * @version 1.0.0
+ */
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Lang;
+
+if (!function_exists('success')) {
+    /**
+     * 返回成功响应
+     *
+     * @param mixed $data 数据
+     * @param string $message 消息
+     * @param int $code 状态码
+     * @return JsonResponse
+     */
+    function success($data = null, string $message = '', int $code = 200): JsonResponse
+    {
+        $message = $message ?: Lang::get('messages.success');
+        
+        return message(
+            $message,
+            true,
+            $data,
+            $code
+        );
+    }
+}
+
+if (!function_exists('error')) {
+    /**
+     * 返回错误响应
+     *
+     * @param string $message 错误消息
+     * @param int $code 状态码
+     * @param mixed $data 数据
+     * @return JsonResponse
+     */
+    function error(string $message = '', int $code = 400, $data = null): JsonResponse
+    {
+        $message = $message ?: Lang::get('messages.failed');
+        
+        return message(
+            $message,
+            false,
+            $data,
+            $code
+        );
+    }
+}
+
+if (!function_exists('message')) {
+    /**
+     * 返回统一消息响应
+     *
+     * @param string $message 消息
+     * @param bool $success 是否成功
+     * @param mixed $data 数据
+     * @param int $code 状态码
+     * @param mixed $extra 额外数据
+     * @return JsonResponse
+     */
+    function message(
+        string $message,
+        bool $success = true,
+        $data = null,
+        int $code = 200,
+        $extra = null
+    ): JsonResponse {
+        $response = [
+            'code' => $code,
+            'message' => $message,
+            'data' => $data ?? new \stdClass(),
+            'success' => $success
+        ];
+        
+        if ($extra !== null) {
+            $response['extra'] = $extra;
+        }
+        
+        return response()->json($response, $code);
+    }
+}
+
+if (!function_exists('paginate')) {
+    /**
+     * 返回分页数据
+     *
+     * @param mixed $paginator Laravel分页对象
+     * @param string $message 消息
+     * @return JsonResponse
+     */
+    function paginate($paginator, string $message = ''): JsonResponse
+    {
+        $message = $message ?: Lang::get('messages.success');
+        
+        return response()->json([
+            'code' => 200,
+            'message' => $message,
+            'data' => [
+                'list' => $paginator->items(),
+                'pagination' => [
+                    'total' => $paginator->total(),
+                    'per_page' => $paginator->perPage(),
+                    'current_page' => $paginator->currentPage(),
+                    'last_page' => $paginator->lastPage(),
+                    'from' => $paginator->firstItem(),
+                    'to' => $paginator->lastItem(),
+                    'has_more_pages' => $paginator->hasMorePages()
+                ]
+            ],
+            'success' => true
+        ], 200);
+    }
+}
+
+if (!function_exists('log_info')) {
+    /**
+     * 记录信息日志
+     *
+     * @param string $message 消息
+     * @param array $context 上下文
+     * @return void
+     */
+    function log_info(string $message, array $context = []): void
+    {
+        Log::info($message, $context);
+    }
+}
+
+if (!function_exists('log_error')) {
+    /**
+     * 记录错误日志
+     *
+     * @param string $message 消息
+     * @param array $context 上下文
+     * @return void
+     */
+    function log_error(string $message, array $context = []): void
+    {
+        Log::error($message, $context);
+    }
+}
+
+if (!function_exists('log_warning')) {
+    /**
+     * 记录警告日志
+     *
+     * @param string $message 消息
+     * @param array $context 上下文
+     * @return void
+     */
+    function log_warning(string $message, array $context = []): void
+    {
+        Log::warning($message, $context);
+    }
+}
+
+if (!function_exists('log_debug')) {
+    /**
+     * 记录调试日志
+     *
+     * @param string $message 消息
+     * @param array $context 上下文
+     * @return void
+     */
+    function log_debug(string $message, array $context = []): void
+    {
+        Log::debug($message, $context);
+    }
+}
+
+if (!function_exists('throw_if')) {
+    /**
+     * 条件抛出异常
+     *
+     * @param bool $condition 条件
+     * @param string $exception 异常类
+     * @param string $message 消息
+     * @param int $code 状态码
+     * @return void
+     * @throws Exception
+     */
+    function throw_if(bool $condition, string $exception, string $message = '', int $code = 400): void
+    {
+        if ($condition) {
+            throw new $exception($message, $code);
+        }
+    }
+}
+
+if (!function_exists('throw_unless')) {
+    /**
+     * 条件不满足抛出异常
+     *
+     * @param bool $condition 条件
+     * @param string $exception 异常类
+     * @param string $message 消息
+     * @param int $code 状态码
+     * @return void
+     * @throws Exception
+     */
+    function throw_unless(bool $condition, string $exception, string $message = '', int $code = 400): void
+    {
+        if (!$condition) {
+            throw new $exception($message, $code);
+        }
+    }
+}
+
+if (!function_exists('api_abort')) {
+    /**
+     * API异常终止
+     *
+     * @param int $code 状态码
+     * @param string $message 消息
+     * @return void
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     */
+    function api_abort(int $code, string $message = ''): void
+    {
+        abort($code, $message);
+    }
+}
+
+if (!function_exists('get_error_message')) {
+    /**
+     * 获取错误消息
+     *
+     * @param \Throwable $e 异常对象
+     * @return string
+     */
+    function get_error_message(\Throwable $e): string
+    {
+        if (config('app.debug')) {
+            return $e->getMessage();
+        }
+        
+        return Lang::get('messages.system_error');
+    }
+}
+
+if (!function_exists('format_exception')) {
+    /**
+     * 格式化异常信息
+     *
+     * @param \Throwable $e 异常对象
+     * @return array
+     */
+    function format_exception(\Throwable $e): array
+    {
+        return [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => config('app.debug') ? $e->getTraceAsString() : null
+        ];
+    }
+}
+
+if (!function_exists('is_production')) {
+    /**
+     * 判断是否为生产环境
+     *
+     * @return bool
+     */
+    function is_production(): bool
+    {
+        return app()->environment('production');
+    }
+}
+
+if (!function_exists('is_local')) {
+    /**
+     * 判断是否为本地环境
+     *
+     * @return bool
+     */
+    function is_local(): bool
+    {
+        return app()->environment('local');
+    }
+}
+
+if (!function_exists('is_testing')) {
+    /**
+     * 判断是否为测试环境
+     *
+     * @return bool
+     */
+    function is_testing(): bool
+    {
+        return app()->environment('testing');
+    }
+}
+
+if (!function_exists('tenant_id')) {
+    /**
+     * 获取当前租户ID
+     *
+     * @return int|null
+     */
+    function tenant_id(): ?int
+    {
+        return request()->attributes->get('tenant_id');
+    }
+}
+
+if (!function_exists('set_tenant_id')) {
+    /**
+     * 设置当前租户ID
+     *
+     * @param int $tenantId 租户ID
+     * @return void
+     */
+    function set_tenant_id(int $tenantId): void
+    {
+        request()->attributes->set('tenant_id', $tenantId);
+    }
+}
+
+if (!function_exists('user_id')) {
+    /**
+     * 获取当前用户ID
+     *
+     * @return int|null
+     */
+    function user_id(): ?int
+    {
+        return auth()->id();
+    }
+}
+
+if (!function_exists('user')) {
+    /**
+     * 获取当前用户
+     *
+     * @return \App\Models\User|null
+     */
+    function user(): ?\App\Models\User
+    {
+        return auth()->user();
+    }
+}
+
+if (!function_exists('is_admin')) {
+    /**
+     * 判断当前用户是否为管理员
+     *
+     * @return bool
+     */
+    function is_admin(): bool
+    {
+        $user = user();
+        return $user && $user->is_admin;
+    }
+}
+
+if (!function_exists('can')) {
+    /**
+     * 判断当前用户是否有权限
+     *
+     * @param string $permission 权限标识
+     * @return bool
+     */
+    function can(string $permission): bool
+    {
+        return auth()->check() && auth()->user()->can($permission);
+    }
+}
+
+if (!function_exists('format_amount')) {
+    /**
+     * 格式化金额（分转元）
+     *
+     * @param int $amount 金额（分）
+     * @param int $decimals 小数位数
+     * @return string
+     */
+    function format_amount(int $amount, int $decimals = 2): string
+    {
+        return number_format($amount / 100, $decimals, '.', '');
+    }
+}
+
+if (!function_exists('parse_amount')) {
+    /**
+     * 解析金额（元转分）
+     *
+     * @param float $amount 金额（元）
+     * @return int
+     */
+    function parse_amount(float $amount): int
+    {
+        return (int) round($amount * 100);
+    }
+}
+
+if (!function_exists('get_config')) {
+    /**
+     * 获取配置值
+     *
+     * @param string $key 配置键
+     * @param mixed $default 默认值
+     * @return mixed
+     */
+    function get_config(string $key, $default = null)
+    {
+        return config($key, $default);
+    }
+}
+
+if (!function_exists('set_config')) {
+    /**
+     * 设置配置值（运行时）
+     *
+     * @param string $key 配置键
+     * @param mixed $value 配置值
+     * @return void
+     */
+    function set_config(string $key, $value): void
+    {
+        config([$key => $value]);
+    }
+}

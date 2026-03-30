@@ -1,20 +1,78 @@
 <?php
 
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Lang;
+
 // +----------------------------------------------------------------------
-// | Laravel 10前后端分离旗舰版框架
-// +----------------------------------------------------------------------
-// | 版权所有 CMF研发中心
+// | Laravel 12前后端分离旗舰版框架
 // +----------------------------------------------------------------------
 // | 作者: Jason jasonps2020@gmail.com
 // +----------------------------------------------------------------------
-// | 免责声明:
-// | 本软件框架禁止任何单位和个人用于任何违法、侵害他人合法利益等恶意的行为，禁止用于任何违
-// | 反我国法律法规的一切平台研发，任何单位和个人使用本软件框架用于产品研发而产生的任何意外
-// | 、疏忽、合约毁坏、诽谤、版权或知识产权侵犯及其造成的损失 (包括但不限于直接、间接、附带
-// | 或衍生的损失等)，本团队不承担任何法律责任。本软件框架只能用于公司和个人内部的法律所允
-// | 许的合法合规的软件产品研发，详细声明内容请阅读《框架免责声明》附件；
-// +----------------------------------------------------------------------
-// 此文件为系统框架核心公共函数文件，为了系统的稳定与安全，未经允许不得擅自改动
+
+/**
+ * 通用助手函数 / 公共方法  (app\Helpers\common.php)
+ * @method array array_merge_multiple($array1, $array2) 多维数组合并
+ * @method array array_key_value($arr, $name = "") 获取数组中某个字段的所有值
+ * @method array array_sort($arr, $keys, $desc = false) 数组排序
+ * @method string xml2array($xml) XML转数组
+ * @method string array2xml($arr, $ignore = true, $level = 1) 数组转XML
+ * @method string curl_url() 获取当前访问的完整地址
+ * @method string curl_get($url, $data = []) curl GET请求
+ * @method string curl_post($url, $data = []) curl POST请求
+ * @method string curl_request($url, $data = [], $type = 'post', $https = false, $httpheader = []) curl通用请求 (默认POST)
+ * @method string datetime($time, $format = 'Y-m-d H:i:s') 格式化日期
+ * @method string format_time($time) 格式化时间段
+ * @method string format_bytes($size, $delimiter = '') 字节转换为可读文本
+ * @method string format_yuan($money = 0) 分转元
+ * @method string format_cent($money) 元转分
+ * @method string format_bank_card($card_no, $is_format = true) 银行卡格式转换
+ * @method string format_mobile($mobile) 手机号格式化
+ * @method string sub_str($str, $start = 0, $length = 10, $suffix = true, $charset = "utf-8") 字符串截取
+ * @method string strip_html_tags($str, $length = 0) 去除HTML标签
+ * @method string data_auth_sign($data) 数据签名认证
+ * @method string encrypt($str, $key = 'p@ssw0rd') DES加密
+ * @method string decrypt($str, $key = 'p@ssw0rd') DES解密
+ * @method string get_password($password) 双MD5加密密码
+ * @method string get_random_code($num = 12) 获取随机码
+ * @method string get_hash() 获取HASH值
+ * @method string get_order_num($prefix = '') 生成订单号
+ * @method string get_guid_v4($trim = true) 生成GUID V4
+ * @method string get_zodiac_sign($month, $day) 获取星座
+ * @method bool is_email($str) 验证邮箱
+ * @method bool is_mobile($num) 验证手机号
+ * @method bool is_zipcode($code) 验证邮编
+ * @method bool is_idcard($idno) 验证身份证
+ * @method bool is_empty($value) 判断是否为空
+ * @method string mkdirs($dir, $mode = 0777) 递归创建目录
+ * @method string rmdirs($dir, $rmself = true) 递归删除目录
+ * @method string copydirs($source, $dest) 递归复制目录
+ * @method string save_image($img_url, $save_dir = '/') 保存远程图片
+ * @method string create_image_path($save_dir = "", $image_ext = "", $image_root = IMG_PATH) 创建图片路径
+ * @method string save_remote_image($img_url, $save_dir = '/') 保存远程图片
+ * @method string save_image_content(&$content, $title = false, $path = 'article') 保存图片内容
+ * @method string upload_image($request, $form_name = 'file') 上传图片
+ * @method string upload_file($request, $form_name = 'file') 上传文件
+ * @method array message($msg = "操作成功", $success = true, $data = null, $code = 200, $extra = []|null) 统一响应格式
+ * @method array success($message = 'Success', $data = null, $code = 200) 成功响应
+ * @method array error($message = 'Error', $code = 400, $errors = null) 错误响应
+ * @method array format_pagination($paginator) 格式化分页数据
+ * @method mixed getter($data, $field, $default = '') 获取数组下标值
+ * @method string get_image_url($image_url) 获取图片网络地址
+ * @method string get_server_ip() 获取服务器IP
+ * @method string get_client_ip($type = 0, $adv = false) 获取客户端IP
+ * @method void export_excel($file_name, $title = [], $data = []) 导出Excel
+ * @method bool ecm_define($value) 定义常量
+ * @method string num2rmb($num) 数字转人民币大写
+ * @method array object_array($object) 对象转数组
+ * @method string parse_attr($value = '') 解析属性
+ * @method mixed widget($widgetName) 获取小部件
+ * @method bool logWriteDaily(string|array $message, string $level = 'INFO', array $config = []) 日志写入
+ * @method string formatLogMessage(string|array $message): string 格式化日志消息
+ */
+
+
 
 if (!function_exists('array_sort')) {
 
@@ -335,47 +393,40 @@ if (!function_exists('data_auth_sign')) {
 
 }
 
-if (!function_exists('decrypt')) {
+if (!function_exists('custom_encrypt')) {
 
     /**
-     * DES解密
+     * AES-256-CBC加密（PHP 8.3+优化版本）
+     * @param mixed $str 加密字符串
+     * @param string $key 加密KEY
+     * @return string
+     * @author jason
+     * @date 2023-03-20
+     */
+    function custom_encrypt(mixed $str, string $key = 'p@ssw0rd'): string {
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-256-CBC'));
+        $encrypted = openssl_encrypt(serialize($str), 'AES-256-CBC', $key, 0, $iv);
+        return base64_encode($iv . $encrypted);
+    }
+
+}
+
+if (!function_exists('custom_decrypt')) {
+
+    /**
+     * AES-256-CBC解密（PHP 8.3+优化版本）
      * @param string $str 解密字符串
      * @param string $key 解密KEY
      * @return mixed
      * @author jason
      * @date 2023-03-20
      */
-    function decrypt($str, $key = 'p@ssw0rd') {
+    function custom_decrypt(string $str, string $key = 'p@ssw0rd'): mixed {
         $str = base64_decode($str);
-        $str = mcrypt_decrypt(MCRYPT_DES, $key, $str, MCRYPT_MODE_ECB);
-        $block = mcrypt_get_block_size('des', 'ecb');
-        $pad = ord($str[($len = strlen($str)) - 1]);
-        if ($pad && $pad < $block && preg_match('/' . chr($pad) . '{' . $pad . '}$/', $str)) {
-            $str = substr($str, 0, strlen($str) - $pad);
-        }
-        return unserialize($str);
-    }
-
-}
-
-if (!function_exists('encrypt')) {
-
-    /**
-     * DES加密
-     * @param string $str 加密字符串
-     * @param string $key 加密KEY
-     * @return string
-     * @author jason
-     * @date 2023-03-20
-     */
-    function encrypt($str, $key = 'p@ssw0rd') {
-        $prep_code = serialize($str);
-        $block = mcrypt_get_block_size('des', 'ecb');
-        if (($pad = $block - (strlen($prep_code) % $block)) < $block) {
-            $prep_code .= str_repeat(chr($pad), $pad);
-        }
-        $encrypt = mcrypt_encrypt(MCRYPT_DES, $key, $prep_code, MCRYPT_MODE_ECB);
-        return base64_encode($encrypt);
+        $ivLength = openssl_cipher_iv_length('AES-256-CBC');
+        $iv = substr($str, 0, $ivLength);
+        $encrypted = substr($str, $ivLength);
+        return unserialize(openssl_decrypt($encrypted, 'AES-256-CBC', $key, 0, $iv));
     }
 
 }
@@ -653,14 +704,14 @@ if (!function_exists('getter')) {
 if (!function_exists('get_zodiac_sign')) {
 
     /**
-     * 根据月、日获取星座
+     * 根据月、日获取星座（PHP 8.3+优化版本）
      * @param int|string $month 月份
      * @param int|string $day 日期
-     * @return string 返回结果
+     * @return string|false 返回结果
      * @author jason
      * @date 2023-03-20
      */
-    function get_zodiac_sign($month, $day) {
+    function get_zodiac_sign(int|string $month, int|string $day): string|false {
         // 检查参数有效性
         if ($month < 1 || $month > 12 || $day < 1 || $day > 31) {
             return false;
@@ -681,9 +732,16 @@ if (!function_exists('get_zodiac_sign')) {
             array("22" => "射手座"),
             array("22" => "摩羯座")
         );
-        list($sign_start, $sign_name) = each($signs[(int) $month - 1]);
+        
+        $sign = $signs[(int) $month - 1];
+        $sign_start = array_key_first($sign);
+        $sign_name = $sign[$sign_start];
+        
         if ($day < $sign_start) {
-            list($sign_start, $sign_name) = each($signs[($month - 2 < 0) ? $month = 11 : $month -= 2]);
+            $prevMonth = ($month - 2 < 0) ? 11 : $month - 2;
+            $sign = $signs[$prevMonth];
+            $sign_start = array_key_first($sign);
+            $sign_name = $sign[$sign_start];
         }
         return $sign_name;
     }
@@ -749,19 +807,17 @@ if (!function_exists('get_server_ip')) {
 if (!function_exists('get_client_ip')) {
 
     /**
-     * 获取客户端IP地址
+     * 获取客户端IP地址（支持IPv4和IPv6）
      * @param int $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
      * @param bool $adv 否进行高级模式获取（有可能被伪装）
-     * @return mixed 返回IP
+     * @return string 返回IP地址
      * @author jason
      * @date 2023-03-20
      */
-    function get_client_ip($type = 0, $adv = false) {
-        $type = $type ? 1 : 0;
-        static $ip = null;
-        if ($ip !== null) {
-            return $ip[$type];
-        }
+    function get_client_ip(int $type = 0, bool $adv = false): string {
+        $ip = null;
+        
+        // 获取IP地址
         if ($adv) {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                 $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
@@ -778,10 +834,21 @@ if (!function_exists('get_client_ip')) {
         } elseif (isset($_SERVER['REMOTE_ADDR'])) {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
-        // IP地址合法验证
-        $long = sprintf("%u", ip2long($ip));
-        $ip = $long ? array($ip, $long) : array('0.0.0.0', 0);
-        return $ip[$type];
+        
+        // 验证IP地址（支持IPv4和IPv6）
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            // IPv6地址
+            return $ip;
+        } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            // IPv4地址
+            if ($type) {
+                return sprintf("%u", ip2long($ip));
+            }
+            return $ip;
+        } else {
+            // 无效IP，返回默认值
+            return $type ? '0' : '0.0.0.0';
+        }
     }
 
 }
@@ -829,14 +896,14 @@ if (!function_exists('get_guid_v4')) {
 if (!function_exists('is_email')) {
 
     /**
-     * 判断是否为邮箱
+     * 判断是否为邮箱（PHP 8.3+优化版本）
      * @param string $str 邮箱
-     * @return false 返回结果true或false
+     * @return bool 返回结果true或false
      * @author jason
      * @date 2023-03-20
      */
-    function is_email($str) {
-        return preg_match('/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/', $str);
+    function is_email(string $str): bool {
+        return filter_var($str, FILTER_VALIDATE_EMAIL) !== false;
     }
 
 }
@@ -844,14 +911,14 @@ if (!function_exists('is_email')) {
 if (!function_exists('is_mobile')) {
 
     /**
-     * 判断是否为手机号
+     * 判断是否为手机号（PHP 8.3+优化版本）
      * @param string $num 手机号码
-     * @return false 返回结果true或false
+     * @return bool 返回结果true或false
      * @author jason
      * @date 2023-03-20
      */
-    function is_mobile($num) {
-        return preg_match('/^1(3|4|5|7|8)\d{9}$/', $num);
+    function is_mobile(string $num): bool {
+        return preg_match('/^1[3-9]\d{9}$/', $num) === 1;
     }
 
 }
@@ -1053,39 +1120,56 @@ if (!function_exists('copydirs')) {
 if (!function_exists('message')) {
 
     /**
-     * 消息数组
-     * @param string $msg 提示文字
-     * @param bool $success 是否成功true或false
-     * @param array $data 结果数据
-     * @param int $code 编码
-     * @return array 返回结果
-     * @author jason
-     * @date 2023-03-20
+     * 生成统一的 API 响应
+     * 
+     * @param string $msg 响应消息
+     * @param bool $success 是否成功
+     * @param mixed $data 响应数据
+     * @param int $code HTTP 状态码
+     * @param mixed $extra 额外数据
+     * @return JsonResponse|array 返回统一的 API 响应
      */
-    function message($msg = "操作成功", $success = true, $data = [], $code = 0) {
-        if ($msg == "操作成功") {
-//            $msg = __("public.MESSAGE_OK");
-        }
-        $result = ['success' => $success, 'msg' => $msg, 'data' => $data];
-        if (is_array($code)) {
-            foreach ($code as $codeKey => $codeValue) {
-                if (!empty($codeKey)) {
-                    $result[$codeKey] = $codeValue;
-                }
-            }
-            if ($success) {
-                $result['code'] = 200;
-            } else {
-                $result['code'] = 501;
-            }
+    function message($msg = "操作成功", $success = true, $data = null, $code = 200, $extra = null): JsonResponse|array {
+        if ($msg == "操作成功" || $msg == "ok") {
+            $translatedMsg = __("messages.Success");
+            $msg = ($translatedMsg !== "messages.Success") ? $translatedMsg : $msg;
         } else {
-            if ($success) {
-                $result['code'] = $code ? $code : 200;
+            $translatedMsg = __($msg);
+            $msg = ($translatedMsg !== $msg) ? $translatedMsg : $msg;
+        }
+
+        if ($code === 201 || $code === 200) {
+            $httpCode = $code;
+        } elseif ($code === 401) {
+            $httpCode = 401;
+        } elseif ($code === 403) {
+            $httpCode = 403;
+        } elseif ($code === 404) {
+            $httpCode = 404;
+        } elseif ($code === 422) {
+            $httpCode = 422;
+        } elseif ($code === 500) {
+            $httpCode = 500;
+        } else {
+            $httpCode = $success ? 200 : 400;
+        }
+
+        $result = [
+            'success' => $success,
+            'msg' => $msg,
+            'data' => $data,
+            'code' => $httpCode,
+        ];
+
+        if ($extra !== null) {
+            if (is_array($extra)) {
+                $result = array_merge($result, $extra);
             } else {
-                $result['code'] = $code ? $code : 501;
+                $result['extra'] = $extra;
             }
         }
-        return $result;
+
+        return response()->json($result, $httpCode);
     }
 
 }
@@ -1716,3 +1800,421 @@ if (!function_exists('widget')) {
 
 
 
+
+
+if (!function_exists('success')) {
+    /**
+     * 返回成功响应
+     *
+     * @param mixed $data 数据
+     * @param string $message 消息
+     * @param int $code 状态码
+     * @return JsonResponse
+     */
+    function success($data = null, string $message = '', int $code = 200): JsonResponse
+    {
+        $message = $message ?: Lang::get('messages.success');
+        
+        return response()->json([
+            'code' => $code,
+            'message' => $message,
+            'data' => $data ?? new \stdClass(),
+            'success' => true
+        ], $code);
+    }
+}
+
+if (!function_exists('error')) {
+    /**
+     * 返回错误响应
+     *
+     * @param string $message 错误消息
+     * @param int $code 状态码
+     * @param mixed $data 数据
+     * @return JsonResponse
+     */
+    function error(string $message = '', int $code = 400, $data = null): JsonResponse
+    {
+        $message = $message ?: Lang::get('messages.failed');
+        
+        return response()->json([
+            'code' => $code,
+            'message' => $message,
+            'data' => $data ?? new \stdClass(),
+            'success' => false
+        ], $code);
+    }
+}
+
+/**
+ * 格式化分页数据
+ * 
+ * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator 分页器实例
+ * @return array 格式化的分页数据
+ */
+if (!function_exists('format_pagination')) {
+    function format_pagination($paginator)
+    {
+        return [
+            'current_page' => $paginator->currentPage(),
+            'data' => $paginator->items(),
+            'first_page_url' => $paginator->url(1),
+            'from' => $paginator->firstItem(),
+            'last_page' => $paginator->lastPage(),
+            'last_page_url' => $paginator->url($paginator->lastPage()),
+            'links' => $paginator->links()->toArray(),
+            'next_page_url' => $paginator->nextPageUrl(),
+            'path' => $paginator->path(),
+            'per_page' => $paginator->perPage(),
+            'prev_page_url' => $paginator->previousPageUrl(),
+            'to' => $paginator->lastItem(),
+            'total' => $paginator->total()
+        ];
+    }
+}
+
+
+
+
+
+if (!function_exists('paginate')) {
+    /**
+     * 返回分页数据
+     *
+     * @param mixed $paginator Laravel分页对象
+     * @param string $message 消息
+     * @return JsonResponse
+     */
+    function paginate($paginator, string $message = ''): JsonResponse
+    {
+        $message = $message ?: Lang::get('messages.success');
+        
+        return response()->json([
+            'code' => 200,
+            'message' => $message,
+            'data' => [
+                'list' => $paginator->items(),
+                'pagination' => [
+                    'total' => $paginator->total(),
+                    'per_page' => $paginator->perPage(),
+                    'current_page' => $paginator->currentPage(),
+                    'last_page' => $paginator->lastPage(),
+                    'from' => $paginator->firstItem(),
+                    'to' => $paginator->lastItem(),
+                    'has_more_pages' => $paginator->hasMorePages()
+                ]
+            ],
+            'success' => true
+        ], 200);
+    }
+}
+
+if (!function_exists('log_info')) {
+    /**
+     * 记录信息日志
+     *
+     * @param string $message 消息
+     * @param array $context 上下文
+     * @return void
+     */
+    function log_info(string $message, array $context = []): void
+    {
+        Log::info($message, $context);
+    }
+}
+
+if (!function_exists('log_error')) {
+    /**
+     * 记录错误日志
+     *
+     * @param string $message 消息
+     * @param array $context 上下文
+     * @return void
+     */
+    function log_error(string $message, array $context = []): void
+    {
+        Log::error($message, $context);
+    }
+}
+
+if (!function_exists('log_warning')) {
+    /**
+     * 记录警告日志
+     *
+     * @param string $message 消息
+     * @param array $context 上下文
+     * @return void
+     */
+    function log_warning(string $message, array $context = []): void
+    {
+        Log::warning($message, $context);
+    }
+}
+
+if (!function_exists('log_debug')) {
+    /**
+     * 记录调试日志
+     *
+     * @param string $message 消息
+     * @param array $context 上下文
+     * @return void
+     */
+    function log_debug(string $message, array $context = []): void
+    {
+        Log::debug($message, $context);
+    }
+}
+
+if (!function_exists('throw_if')) {
+    /**
+     * 条件抛出异常
+     *
+     * @param bool $condition 条件
+     * @param string $exception 异常类
+     * @param string $message 消息
+     * @param int $code 状态码
+     * @return void
+     * @throws Exception
+     */
+    function throw_if(bool $condition, string $exception, string $message = '', int $code = 400): void
+    {
+        if ($condition) {
+            throw new $exception($message, $code);
+        }
+    }
+}
+
+if (!function_exists('throw_unless')) {
+    /**
+     * 条件不满足抛出异常
+     *
+     * @param bool $condition 条件
+     * @param string $exception 异常类
+     * @param string $message 消息
+     * @param int $code 状态码
+     * @return void
+     * @throws Exception
+     */
+    function throw_unless(bool $condition, string $exception, string $message = '', int $code = 400): void
+    {
+        if (!$condition) {
+            throw new $exception($message, $code);
+        }
+    }
+}
+
+if (!function_exists('api_abort')) {
+    /**
+     * API异常终止
+     *
+     * @param int $code 状态码
+     * @param string $message 消息
+     * @return void
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     */
+    function api_abort(int $code, string $message = ''): void
+    {
+        abort($code, $message);
+    }
+}
+
+if (!function_exists('get_error_message')) {
+    /**
+     * 获取错误消息
+     *
+     * @param \Throwable $e 异常对象
+     * @return string
+     */
+    function get_error_message(\Throwable $e): string
+    {
+        if (config('app.debug')) {
+            return $e->getMessage();
+        }
+        
+        return Lang::get('messages.system_error');
+    }
+}
+
+if (!function_exists('format_exception')) {
+    /**
+     * 格式化异常信息
+     *
+     * @param \Throwable $e 异常对象
+     * @return array
+     */
+    function format_exception(\Throwable $e): array
+    {
+        return [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => config('app.debug') ? $e->getTraceAsString() : null
+        ];
+    }
+}
+
+if (!function_exists('is_production')) {
+    /**
+     * 判断是否为生产环境
+     *
+     * @return bool
+     */
+    function is_production(): bool
+    {
+        return app()->environment('production');
+    }
+}
+
+if (!function_exists('is_local')) {
+    /**
+     * 判断是否为本地环境
+     *
+     * @return bool
+     */
+    function is_local(): bool
+    {
+        return app()->environment('local');
+    }
+}
+
+if (!function_exists('is_testing')) {
+    /**
+     * 判断是否为测试环境
+     *
+     * @return bool
+     */
+    function is_testing(): bool
+    {
+        return app()->environment('testing');
+    }
+}
+
+if (!function_exists('tenant_id')) {
+    /**
+     * 获取当前租户ID
+     *
+     * @return int|null
+     */
+    function tenant_id(): ?int
+    {
+        return request()->attributes->get('tenant_id');
+    }
+}
+
+if (!function_exists('set_tenant_id')) {
+    /**
+     * 设置当前租户ID
+     *
+     * @param int $tenantId 租户ID
+     * @return void
+     */
+    function set_tenant_id(int $tenantId): void
+    {
+        request()->attributes->set('tenant_id', $tenantId);
+    }
+}
+
+if (!function_exists('user_id')) {
+    /**
+     * 获取当前用户ID
+     *
+     * @return int|null
+     */
+    function user_id(): ?int
+    {
+        return auth()->id();
+    }
+}
+
+if (!function_exists('user')) {
+    /**
+     * 获取当前用户
+     *
+     * @return \App\Models\User|null
+     */
+    function user(): ?\App\Models\User
+    {
+        return auth()->user();
+    }
+}
+
+if (!function_exists('is_admin')) {
+    /**
+     * 判断当前用户是否为管理员
+     *
+     * @return bool
+     */
+    function is_admin(): bool
+    {
+        $user = user();
+        return $user && $user->is_admin;
+    }
+}
+
+if (!function_exists('can')) {
+    /**
+     * 判断当前用户是否有权限
+     *
+     * @param string $permission 权限标识
+     * @return bool
+     */
+    function can(string $permission): bool
+    {
+        return auth()->check() && auth()->user()->can($permission);
+    }
+}
+
+if (!function_exists('format_amount')) {
+    /**
+     * 格式化金额（分转元）
+     *
+     * @param int $amount 金额（分）
+     * @param int $decimals 小数位数
+     * @return string
+     */
+    function format_amount(int $amount, int $decimals = 2): string
+    {
+        return number_format($amount / 100, $decimals, '.', '');
+    }
+}
+
+if (!function_exists('parse_amount')) {
+    /**
+     * 解析金额（元转分）
+     *
+     * @param float $amount 金额（元）
+     * @return int
+     */
+    function parse_amount(float $amount): int
+    {
+        return (int) round($amount * 100);
+    }
+}
+
+if (!function_exists('get_config')) {
+    /**
+     * 获取配置值
+     *
+     * @param string $key 配置键
+     * @param mixed $default 默认值
+     * @return mixed
+     */
+    function get_config(string $key, $default = null)
+    {
+        return config($key, $default);
+    }
+}
+
+if (!function_exists('set_config')) {
+    /**
+     * 设置配置值（运行时）
+     *
+     * @param string $key 配置键
+     * @param mixed $value 配置值
+     * @return void
+     */
+    function set_config(string $key, $value): void
+    {
+        config([$key => $value]);
+    }
+}

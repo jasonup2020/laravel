@@ -1,0 +1,94 @@
+<?php
+
+return [
+    'required' => ':attribute 不能为空',
+    'string' => ':attribute 必须是字符串',
+    'integer' => ':attribute 必须是整数',
+    'numeric' => ':attribute 必须是数字',
+    'email' => ':attribute 格式不正确',
+    'max' => [
+        'string' => ':attribute 不能超过 :max 个字符',
+        'numeric' => ':attribute 不能大于 :max',
+    ],
+    'min' => [
+        'string' => ':attribute 至少需要 :min 个字符',
+        'numeric' => ':attribute 不能小于 :min',
+    ],
+    'unique' => ':attribute 已存在',
+    'exists' => ':attribute 不存在',
+    'in' => ':attribute 值不正确',
+    'date' => ':attribute 格式不正确',
+    'confirmed' => ':attribute 两次输入不一致',
+    'array' => ':attribute 必须是数组',
+    'alpha_num' => ':attribute 只能包含字母和数字',
+    'different' => ':attribute 不能与 :other 相同',
+    
+    'attributes' => [
+        'name' => '名称',
+        'email' => '邮箱',
+        'password' => '密码',
+        'old_password' => '原密码',
+        'new_password' => '新密码',
+        'phone' => '手机号',
+        'code' => '代码',
+        'slug' => '标识',
+        'description' => '描述',
+        'status' => '状态',
+        'domain' => '域名',
+        'database' => '数据库',
+        'parent_id' => '父级ID',
+        'icon' => '图标',
+        'path' => '路径',
+        'component' => '组件',
+        'sort' => '排序',
+        'module' => '模块',
+        'role_ids' => '角色ID',
+        'permission_ids' => '权限ID',
+        'ids' => 'ID列表',
+        'refresh_token' => '刷新令牌',
+        'config' => '配置',
+        'requests_per_minute' => '每分钟请求数',
+        'requests_per_hour' => '每小时请求数',
+        'requests_per_day' => '每天请求数',
+        'endpoint' => '端点',
+        'department_id' => '部门ID',
+        'position_id' => '岗位ID',
+        'level_id' => '职级ID',
+    ],
+    
+    'custom' => [
+        'email' => [
+            'required' => '邮箱不能为空',
+            'email' => '邮箱格式不正确',
+            'unique' => '邮箱已被注册',
+        ],
+        'password' => [
+            'required' => '密码不能为空',
+            'min' => '密码长度不能少于:min个字符',
+        ],
+        'name' => [
+            'required' => '名称不能为空',
+            'alpha_num' => '名称只能包含字母和数字',
+        ],
+        'code' => [
+            'required' => '代码不能为空',
+            'unique' => '代码已存在',
+        ],
+        'slug' => [
+            'required' => '标识不能为空',
+            'unique' => '标识已存在',
+        ],
+        'role_ids' => [
+            'required' => '角色ID不能为空',
+            'array' => '角色ID必须为数组',
+        ],
+        'permission_ids' => [
+            'required' => '权限ID不能为空',
+            'array' => '权限ID必须为数组',
+        ],
+        'ids' => [
+            'required' => 'ID列表不能为空',
+            'array' => 'ID列表必须为数组',
+        ],
+    ],
+];
